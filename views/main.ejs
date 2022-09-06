@@ -1,0 +1,76 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js" integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<style>
+    .div_class {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+</style>
+
+<body>
+    <div>
+        <form class="div_class" method="get" action="/personal">
+            <div>
+                <label for="name">아아디</label>
+                <input type="text" name="ID" required>
+            </div>
+            <div>
+                <label for="name">비번</label>
+                <input type="password" name="password" required>
+            </div>
+            <div>
+                <label for="name">이흠</label>
+                <input type="text" name="name" required>
+            </div>
+            <div>
+                <label for="name">나이</label>
+                <input type="text" name="age" required>
+            </div>
+            <div>
+                <input type="file" name="userfile" id="file">
+            </div>
+            <button type="button" onclick="a()">제출</button>
+        </form>
+    </div>
+    <div class="res">
+        <img class="img" alt="">
+    </div>
+    <script>
+        console.log(document.querySelector("form").ID.value);
+        const a=()=>{
+            const formdata=new FormData();
+            const file= document.getElementById("file");
+            formdata.append("ID",document.querySelector("form").ID.value,);
+            formdata.append("password",document.querySelector("form").password.value,);
+            formdata.append("name",document.querySelector("form").name.value,);
+            formdata.append("age",document.querySelector("form").age.value,);
+            //formdata.get("userfile").name=`${document.querySelector("form").ID.value}`+`.jpg`;
+            
+            formdata.append("userfile",file.files[0]);
+            console.log(file.files[0].name.split(".")[1]);
+            //formdata.userfile.name=`${document.querySelector("form").ID.value}`+`.png`
+            axios({
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                  },
+                url: '/upload',
+                method: 'post',
+                data:formdata
+            }).then((response)=>{
+                $(".img").attr("src",`${response.data.destination}`+`${response.data.originalname}`);
+                $(".img").attr("width","200px");
+                $(".img").attr("height","200px");
+                console.log(response);
+            })
+        }
+    </script>
+</body>
+
+</html>

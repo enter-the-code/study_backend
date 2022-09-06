@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js" integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  
+
+
+        <form method="post" action="/post">
+            아이디: <input type="text" name="id" required>
+            <br><br>
+            이름: <input type="text" name="name" required>
+            <br><br>
+            비밀번호: <input type="password" name="pass" required>
+            <br><br>
+            <button type="button" onclick="dynamicForm()">회원가입</button>
+            <a href="/Login">로그인하러가기</a>
+            <div style="color: red;">
+                
+            </div>
+        </form>
+        <script>
+ 
+
+                function dynamicForm() {
+                var form = document.querySelector("form");
+
+                var data11 = {
+                    id: form.id.value,
+                    name:form.name.value,
+                    password: form.pass.value
+                }
+                console.log(data11);
+                axios({
+                url: "/post/axios",
+                method: "post",
+                // post방식 일때는 params가 data로 변경
+                data: data11
+            }).then((response)=>{
+                $("div").html(response.data);
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            }
+
+
+
+
+        </script>
+
+  
+
+
+
+
+<script>
+
+
+</script>
+
+
+
+</body>
+
+</html>

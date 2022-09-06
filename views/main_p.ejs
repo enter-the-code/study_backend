@@ -1,0 +1,139 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js" integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  
+
+
+        <form method="post" action="/post">
+            아이디: <input type="text" name="id" id="id1" required>
+            <button type="button" onclick="check()">수정</button>
+            <button type="button" onclick="del()">탈퇴</button>
+            <div style="color: red;">
+                
+            </div>
+        </form>
+        <script>
+ 
+
+                function mod() {
+                var form = document.querySelector("form");
+
+                var data11 = {
+                    id: form.id.value
+                }
+                $("div").html(`
+            아이디: <input type="text" id="id" required>
+            비번: <input type="text" id="password" required>
+            이름: <input type="text" id="name" required>
+            <button type="button" onclick="mod1(this)">수정</button>
+            `)
+            }
+
+            function mod1(){
+                let dat={
+                    id_found:$("#id1").val(),
+                    id:$("#id").val(),
+                    password:$("#password").val(),
+                    name:$("#name").val()
+                }
+                console.log(dat);
+                axios({
+                    url: "/post/modify",
+                    method: "post",
+                    // post방식 일때는 params가 data로 변경
+                    data: dat
+                }).then((response)=>{
+                    if(response.data){
+                        $("div").html("수정성공");
+                    }
+                    else{
+                        $("div").html("그런계정이 없던데? ㄹㅇ");
+                    }
+                    console.log(response);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+
+
+            }
+            function del(){
+                let dat={
+                    id_found:$("#id1").val(),
+                }
+                console.log(dat);
+                axios({
+                    url: "/post/del",
+                    method: "post",
+                    // post방식 일때는 params가 data로 변경
+                    data: dat
+                }).then((response)=>{
+                    if(response.data){
+                        $("div").html("삭제성공");
+                    }
+                    else{
+                        $("div").html("그런계정이 없던데? ㄹㅇ");
+                    }
+                    console.log(response);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+            }
+
+
+            function check(){
+                let dat={
+                    id_found:$("#id1").val(),
+                }
+                console.log(dat);
+                axios({
+                    url: "/post/check",
+                    method: "post",
+                    // post방식 일때는 params가 data로 변경
+                    data: dat
+                }).then((response)=>{
+                    if(response.data){
+                        $("div").html(`
+            아이디: <input type="text" id="id" required>
+            비번: <input type="text" id="password" required>
+            이름: <input type="text" id="name" required>
+            <button type="button" onclick="mod1(this)">수정</button>
+            `)
+                    }
+                    else{
+                        $("div").html("그런계정이 없던데? ㄹㅇ");
+                    }
+                    console.log(response);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+            }
+        </script>
+
+  
+
+
+
+
+<script>
+
+
+</script>
+
+
+
+</body>
+
+</html>

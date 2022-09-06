@@ -1,0 +1,92 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js" integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<style>
+    .div_class {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+</style>
+
+<body>
+    <div>
+        <form class="div_class" method="post" action="/personal">
+            <div>
+                <label for="name">이름</label>
+                <input type="text" name="name" required>
+            </div>
+            <div>
+                성별   
+                <input type="radio" name="gender" value="남" required>
+                <label for="gender">남자</label>
+                <input type="radio" name="gender" value="여">
+                <label for="gender">여자</label>
+            </div>
+            <div>
+                <label for="birth">생년월일</label>
+                <select name="year" id="birth" required>
+                    <%for(let i=1900;i<2001;i++){%>
+                        <option value="<%=i%>"><%=i%></option>
+                        <%}%>
+                </select>
+                <label for="year">년</label>
+                <select name="month" id="birth" required>
+                    <%for(let i=1;i<13;i++){%>
+                        <option value="<%=i%>"><%=i%></option>
+                        <%}%>
+                </select>
+                <label for="month">월</label>
+                <select name="day" id="birth" required>
+                    <%for(let i=1;i<32;i++){%>
+                        <option value="<%=i%>"><%=i%></option>
+                        <%}%>
+                </select>
+                <label for="day">일</label>
+            </div>
+            <div>
+                관심사
+                <input type="checkbox" name="hobby" value="여행">
+                <label for="hobby">여행</label>
+                <input type="checkbox" name="hobby" value="패션">
+                <label for="hobby">패션</label>
+                <input type="checkbox" name="hobby" value="음식">
+                <label for="hobby">음식</label>
+            </div>
+            <button type="button" onclick="a()">제출</button>
+        </form>
+    </div>
+    <script>
+        console.log(document.querySelector("form").hobby.value);
+        const a=()=>{
+            let d=[];
+            for(let i=0;i<document.getElementsByName("hobby").length;i++){
+                if(document.getElementsByName("hobby")[i].checked){
+                    d.push(document.getElementsByName("hobby")[i].value)
+                }
+            }
+            let data={name:document.querySelector("form").name.value,
+            gender:document.querySelector("form").gender.value,
+            year:document.querySelector("form").year.value,
+            month:document.querySelector("form").month.value,
+            day:document.querySelector("form").day.value,
+            interest:d}
+            console.log(d);
+            console.log(data);
+            axios({
+                url: '/inter',
+                method: 'GET',
+                params:data
+            }).then((response)=>{
+                console.log(response);
+            })
+        }
+    </script>
+</body>
+
+</html>
